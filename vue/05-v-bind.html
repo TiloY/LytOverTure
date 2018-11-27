@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>04- v-bind 可以用来动态绑定属性,可以想绑定什么属性就绑定什么属性</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+        <style>
+            .red-font{
+                color: rgb(240, 29, 29);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div v-html="name"></div>
+            <a :href="'del.php?id='+id">删除</a>
+           <!-- <img v-bind:src="lyt" alt="" srcset=""> -->
+           <p :name="name">测试绑定属性</p>
+           <!--v-bind 动态绑定样式 ：class="{类名：布尔值}"-->
+           <p :class="{'red-font':true}">红色字体</p>
+           <img :src="lyt" alt="" srcset="">
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     name: '<p>lyt</p>',
+                     age: 18,
+                     lyt: './lyt.jpg',
+                     id: 11
+                }
+            })
+        </script>
+    </body>
+</html>

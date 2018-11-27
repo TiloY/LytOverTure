@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>15 案例 搜索功能的实现 </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="vue.min.js"></script>
+    <style>
+        #app{
+            width: 600px;
+            margin: 10px auto;
+        }
+        .tb{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .tb th{
+            background-color: #0094ff;
+            color: white;
+        }
+        .tb td,.tb th{
+            padding: 5px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .add{
+            padding: 5px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="add">
+            编号<input type="text" v-model="newId">
+            品牌名称<input type="text" v-model="newName">
+            <input type="button" value="添加" @click="addData">
+        </div>
+
+        <div class="add">
+            <!-- 搜索功能第一步  v-model 和input框双向数据绑定-->
+            品牌名称<input type="text" placeholder="请输入搜索条件" v-model="serchVal">
+        </div>
+
+        <div>
+            <table class="tb">
+                <tr>
+                    <th>编号</th>
+                    <th>品牌名称</th>
+                    <th>创立时间</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(item,index) in newList" :key="index">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <!-- 在需要过滤的数据后面加上管道符 | 过滤器名称 -->
+                    <td>{{item.ctime | fmtTime('/')}}</td>
+                    <td>
+                        <!-- 將index作為參數傳入 -->
+                        <a href="#" @click="del(index)">刪除</a>
+                    </td>
+                </tr>
+
+                <tr v-if="list.length===0">
+                    <td colspan="4">没有品牌数据</td>
+                </tr>
+                <!-- 动态生成数据tr -->
+            </table>
+        </div>
+    </div>
+    <script>
+        //创建过滤器 Vue.filter() 2个参数 第一个参数是过滤器额名字 第二个参数是 过滤器要处理的函数 这个函数有一个默认的
+        // 参数 表示要过滤的数据
+
+
+        // 过滤器可以过滤任意你可以拿到的数据
+        // 创建时间过滤器 fmtTime
+        Vue.filter('fmtTime', function (time, seprator) {
+            console.log(time);
+            var y = time.getFullYear();
+            var m = time.getMonth();
+            var d = time.getDate();
+            return y + seprator + m + seprator + d;
+        })
+        var VM = new Vue({
+            el: "#app",
+            data: {
+                newId: '',
+                newName: '',
+                serchVal: '',
+                list: [
+                   {
+                       id:'',
+                       name:'',
+                       ctime:''
+                   }
+                ]
+            },
+            methods: {
+                del(arg) {
+                    this.list.splice(arg, 1)
+                },
+                addData() {
+                    this.list.push({ id: this.newId, name: this.newName, ctime: new Date() })
+                },
+                getAllList() {  //获取列表的全部信息
+						
+						//这个url填写你获取数据的地址
+						var url = 'http://localhost:8080/lyt/select'
+						fetch(url,{
+							method: 'get'
+						})
+				           .then(res => {
+				             return res.json()
+				           })
+				           .then(data => {
+				             console.log(data);
+				             this.list = data;
+				         })	
+					},				
+            },
+            created() {//当vm实例的data和methods 初始化完毕后，vm实例会自动执行这个方法
+                this.getAllList();
+            },
+            // 定义计算属性 
+            computed: {
+                // 定义newList
+                newList() {
+                    //缓存this 解决this.serchVal this对象没有正确指向的原因
+                    // var that = this
+                    // // 定义自定义函数 isContainStr
+                    // function isContainStr(value) {
+                    //     // console.log(this);
+                    //     // value 代表数组中的每一项  ！== -1 就表示包含 满足条件能够找字符串
+                    //     return value.name.indexOf(that.serchVal) !== -1
+                    // }
+                    // var tempList = this.list.filter(isContainStr)
+                    // return tempList
+
+                    //es6来做  此处箭头函数的this 在哪儿定义就指向谁  此处的this 指向VM实例
+                    return this.list.filter(value => value.name.indexOf(this.serchVal) !== -1)
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

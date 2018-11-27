@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>02-插值表达式的合法用法</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{name}}</p>
+            <p>{{age}}</p>
+
+            <h1>表达式</h1>
+            <p>{{'李'+name}}</p>
+            <p>{{age+1}}</p>
+            <p>{{name.split('').reverse().join('')}}</p>
+            <p>{{age>=18?"已成年":"未成年"}}</p>
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     name: 'lyt',
+                     age: 18
+                }
+            })
+        </script>
+    </body>
+</html>

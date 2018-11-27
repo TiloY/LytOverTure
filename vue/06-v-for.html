@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>06-v-for循环 数组</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1>v-for="item in arr"</h1>
+            <p v-for="item in user">{{item.name}}:{{item.age}}</p>
+            <h1>v-for"(item,index)in arr"</h1>
+            <p v-for="(item,index) in user">{{item.name}}:{{item.age}}索引:{{index}}</p>
+            <!-- v-for 渲染对象-->
+
+            <h1>对象渲染的第一种方式</h1>
+            <p v-for="value in boss">{{value}}</p>
+            <h1>对象渲染的第二种方式</h1>
+            <p v-for="(value,key,index) in boss">{{key}}:{{value}}:{{index}}</p>
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     user:[
+                         {name:'jack',age:10},
+                         {name:'rose',age:20}
+                     ],
+                     boss:{
+                         name:'马云',
+                         age: 60
+                     }
+
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /lyt
+
+#knet数据源配置
+spring:
+  datasource:
+    knet:
+      jdbc-url: jdbc:oracle:thin:@192.168.195.128:1521:orcl
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: nayt
+      password: nayt
+#kaas数据源配置
+    kaas:
+      jdbc-url: jdbc:oracle:thin:@192.168.195.128:1521:orcl
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: sccc
+      password: sccc
+
+  data:
+    mongodb:
+      uri:  mongodb://localhost:27017/
+      database: xc_cms
+
+person:
+  name: 小牛牛
+  age: 3

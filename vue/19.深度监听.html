@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="user.name">
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     user:{
+                         name:'jack'
+                     }
+                },
+
+                watch:{
+                    //监听对象不能使用下面的方式 要使用深度监听
+                    // user(newVal,oldVal){
+                    //     console.log('改变了')
+                    // }
+                    user:{
+                        // handler（）名字固定
+                        handler(newVal){
+                            console.log('改变了');
+                            console.log(newVal.name);
+                        },
+                        // deep :true 表示深度监听
+                        deep:true
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>07-v-model 双向数据绑定   就是model和view中的值同步变化 只能使用在input textarea select标签中</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="name">
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     name:'lyt',
+                     age: 18
+                }
+            })
+        </script>
+    </body>
+</html>

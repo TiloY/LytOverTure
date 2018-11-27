@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>17 监听器 是根据data找那个已有的属性得到的一个新的属性 </title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="firstName">
+            <input type="text" v-model="lastNmame">
+
+            <!-- <div>全名：{{firstName + lastNmame}}</div> -->
+            <h1>computed</h1>
+            <div>全名：{{fullName}}</div>
+
+            <h1>watch</h1>
+            <div>全名：{{watchFullName}}</div>
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     firstName:'',
+                     lastNmame:'',
+                     watchFullName:''
+                },
+                // 计算属性 通过computed关键字来实现 他是一个对象
+                
+                // 计算属性是 基于他们的依赖 进行缓存的     好处 提升性能能！！！
+                computed:{
+                    // 这里的fullName 是一个计算属性 ，他是一个函数 ，但是这个函数可以当做属性来使用
+                    fullName(){
+                        return this.firstName + this.lastNmame;
+                    }
+                },
+
+
+                // watch 监听器  用来监听data中的数据  只要监听的数据一变化 就能执行相应的函数
+                // 创建监听器  使用 watch属性  他是一个对象
+                watch:{
+                    //这里面的函数名字很特殊  就是data中要监听的名字  包含两个参数 一个newValue 一个是oldValue
+                    firstName(newVal,oldVal){
+                        console.log(newVal,oldVal);
+                        this.watchFullName = newVal + this.lastNmame;
+                    },
+                    lastNmame(newVal,oldVal){
+                        console.log(newVal,oldVal);
+                        this.watchFullName = newVal + this.firstName;
+                    }
+                }
+
+
+                // 开发时候能用 computed实现的就用 因为有缓存   
+                // watch 的使用情况   多用于异步操作的时候 计算属性是无法实现的
+
+            })
+        </script>
+    </body>
+</html>

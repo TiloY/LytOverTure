@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>13 案例 自动获取焦点DOM版本 原生js </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="vue.min.js"></script>
+    <style>
+        #app{
+            width: 600px;
+            margin: 10px auto;
+        }
+        .tb{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .tb th{
+            background-color: #0094ff;
+            color: white;
+        }
+        .tb td,.tb th{
+            padding: 5px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .add{
+            padding: 5px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="add">
+            编号<input type="text" v-model="newId" v-mycolor="color">
+            品牌名称<input type="text" v-model="newName" v-myfocus>
+            <input type="button" value="添加" @click="addData">
+        </div>
+
+        <div class="add">
+            品牌名称<input type="text" placeholder="请输入搜索条件">
+        </div>
+
+        <div>
+            <table class="tb">
+                <tr>
+                    <th>编号</th>
+                    <th>品牌名称</th>
+                    <th>创立时间</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(item,index) in list" :key="index">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td>
+                        <!-- 將index作為參數傳入 -->
+                        <a href="#" @click="del(index)">刪除</a>
+                    </td>
+                </tr>
+
+                <tr v-if="list.length===0">
+                    <td colspan="4">没有品牌数据</td>
+                </tr>
+                <!-- 动态生成数据tr -->
+            </table>
+        </div>
+    </div>
+    <script>
+        //自定义指令通过 Vue.directive()创建， 两个参数 ，一个是自定义指令的名字 ，可以任意 ，建议全小写
+        // 第二个参数 是 对象  表示 指令 的配置项
+
+        // 使用的时候是 v-myfocus 指令
+        Vue.directive('myfocus', {
+            //配置项 里有一些钩子函数  inserted 表示自定义指令 插入到标签中就起作用
+            //  inserted 有两个参数 （el,binding） el 表示使用自定义指令的元素 binding 表示自定义指令 的信息
+            inserted(el, binding) {
+                console.log(el);
+                console.log(binding);
+                el.focus();
+            }
+        })
+
+        //创建 v-mycolor 自定义指令
+        Vue.directive('mycolor', {
+            inserted(el, binding) {
+                console.log(binding);
+                // binding.value 就可以拿到自定义指令的值
+                el.style.color = binding.value
+            }
+        })
+
+
+        var VM = new Vue({
+            el: "#app",
+            data: {
+                newId: '',
+                newName: '',
+                color: 'red',
+                list: [
+                    { id: 1, name: 'lyt', ctime: new Date() },
+                    { id: 2, name: 'scc', ctime: new Date() },
+                    { id: 3, name: 'vxx', ctime: new Date() }
+                ]
+            },
+            //mouned钩子函数，表示页面一加载进来就执行函数里面的内容（ 和window.onload类似）
+            // 注意mounted名字不能随便取  而且不能写在methods 里面  和methods同级
+            // mounted() {
+            // console.log('1111');
+            // document.getElementById('inputId').focus()
+            // ref 来实现  ref属性表示对DOM的引入  只可以随便取 但是不能重复
+            //通过 this.$refs.ref的值.....来获取dom
+            // console.log(this.$refs.inputRefId);
+            // this.$refs.inputRefId.focus()
+            // },
+            methods: {
+                del(arg) {
+                    this.list.splice(arg, 1)
+                },
+                addData() {
+                    this.list.push({ id: this.newId, name: this.newName, ctime: new Date() })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

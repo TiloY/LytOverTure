@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>16 计算属性 是根据data找那个已有的属性得到的一个新的属性 </title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <script src="vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="firstName">
+            <input type="text" v-model="lastNmame">
+
+            <!-- <div>全名：{{firstName + lastNmame}}</div> -->
+            <h1>computed</h1>
+            <div>全名：{{fullName}}</div>
+        </div>
+        <script>
+            var VM = new Vue({
+                el:"#app",
+                 data:{
+                     firstName:'',
+                     lastNmame:''
+                },
+                // 计算属性 通过computed关键字来实现 他是一个对象
+                
+                // 计算属性是 基于他们的依赖 进行缓存的     好处 提升性能能！！！
+                computed:{
+                    // 这里的fullName 是一个计算属性 ，他是一个函数 ，但是这个函数可以当做属性来使用
+                    fullName(){
+                        return this.firstName + this.lastNmame;
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

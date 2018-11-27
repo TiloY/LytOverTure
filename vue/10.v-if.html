@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>10 v-if 和v-else-if</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="type === 'A'">
+            A
+        </div>
+        <div v-else-if="type === 'B'">
+            B
+        </div>
+        <div v-else-if="type === 'C'">
+            C
+        </div>
+        <div v-else>
+            Not A/B/C
+        </div>
+    </div>
+    <script>
+        var VM = new Vue({
+            el: "#app",
+            data: {
+                type: 'A'
+            }
+        })
+    </script>
+</body>
+
+</html>
